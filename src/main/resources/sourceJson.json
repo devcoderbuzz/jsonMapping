@@ -1,0 +1,49 @@
+sourceJson
+
+{
+  "user": {
+    "name": "Alice",
+    "email": "alice@example.com",
+    "address": {
+      "city": "Wonderland",
+      "zip": "12345"
+    },
+    "tags": ["admin", "editor"]
+  },
+  "orders": [
+    {
+      "id": 101,
+      "item": "Book",
+      "price": 12.99
+    },
+    {
+      "id": 102,
+      "item": "Pen",
+      "price": 1.99
+    }
+  ]
+}
+
+
+mappingJson
+
+{
+  "userName": "${user.name}",
+  "userCity": "${user.address.city}",
+  "tagList": "${user.tags.join(', ')}",
+  "orderSummary": "${#each orders as order}Order ${order.id}: ${order.item} ($${order.price})\\n${/each}",
+  "zipOrDefault": "${user.address.zip ?: '00000'}",
+  "nicknameFallback": "${user.nickname ?: 'No Nickname'}"
+}
+
+
+Expected Output:
+
+{
+  "userName": "Alice",
+  "userCity": "Wonderland",
+  "tagList": "admin, editor",
+  "orderSummary": "Order 101: Book ($12.99)\nOrder 102: Pen ($1.99)\n",
+  "zipOrDefault": "12345",
+  "nicknameFallback": "No Nickname"
+}
